@@ -41,6 +41,7 @@ components:
 commands:
   - id: build
     exec:
+      label: "Build"
       component: tools
       workingDir: ${PROJECTS_ROOT}/gs-validating-form-input/complete
       commandLine: gradle build
@@ -48,6 +49,7 @@ commands:
         kind: build
   - id: run
     exec:
+      label: "Run application"
       component: tools
       workingDir: ${PROJECTS_ROOT}/gs-validating-form-input/complete
       commandLine: gradle bootRun
@@ -55,6 +57,7 @@ commands:
         kind: run
   - id: test
     exec:
+      label: "Run tests"
       component: tools
       workingDir: ${PROJECTS_ROOT}/gs-validating-form-input/complete
       commandLine: gradle test
@@ -62,8 +65,9 @@ commands:
         kind: run
   - id: debug
     exec:
+      label: "Run in debug mode"
       component: tools
       workingDir: ${PROJECTS_ROOT}/gs-validating-form-input/complete
       commandLine: gradle bootRun --debug-jvm
       group:
-        kind: run
+        kind: debug
