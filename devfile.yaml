@@ -5,7 +5,7 @@ components:
   - name: tools
     container:
       image: registry.redhat.io/codeready-workspaces/plugin-java11-rhel8
-      memoryLimit: 2Gi
+      memoryLimit: 4Gi
       endpoints:
         - exposure: none
           name: debug
