@@ -1,0 +1,69 @@
+schemaVersion: 2.1.0
+metadata:
+  name: java-gradle
+components:
+  - name: tools
+    container:
+      image: registry.redhat.io/codeready-workspaces/plugin-java11-rhel8
+      memoryLimit: 2Gi
+      endpoints:
+        - exposure: none
+          name: debug
+          protocol: tcp
+          targetPort: 5005
+        - exposure: public
+          name: input-form-endpoint
+          protocol: http
+          targetPort: 8080
+      env:
+        - name: GRADLE_USER_HOME
+          value: /home/jboss/.gradle
+        - name: JAVA_OPTS
+          value: "-XX:MaxRAMPercentage=50 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
+            -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
+            -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom"
+        - name: JAVA_TOOL_OPTIONS
+          value: $(JAVA_OPTS)
+        - name: HOME
+          value: /home/jboss
+      volumeMounts:
+        - name: m2
+          path: /home/jboss/.m2
+        - name: gradle
+          path: /home/jboss/.gradle
+      mountSources: true
+  - name: m2
+    volume:
+      size: 1G
+  - name: gradle
+    volume:
+      size: 1G
+commands:
+  - id: build
+    exec:
+      component: tools
+      workingDir: ${PROJECTS_ROOT}/gs-validating-form-input/complete
+      commandLine: gradle build
+      group:
+        kind: build
+  - id: run
+    exec:
+      component: tools
+      workingDir: ${PROJECTS_ROOT}/gs-validating-form-input/complete
+      commandLine: gradle bootRun
+      group:
+        kind: run
+  - id: test
+    exec:
+      component: tools
+      workingDir: ${PROJECTS_ROOT}/gs-validating-form-input/complete
+      commandLine: gradle test
+      group:
+        kind: run
+  - id: debug
+    exec:
+      component: tools
+      workingDir: ${PROJECTS_ROOT}/gs-validating-form-input/complete
+      commandLine: gradle bootRun --debug-jvm
+      group:
+        kind: run
