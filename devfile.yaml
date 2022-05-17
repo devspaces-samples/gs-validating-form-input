@@ -17,18 +17,8 @@ components:
           targetPort: 8080
       env:
         - name: GRADLE_USER_HOME
-          value: /home/jboss/.gradle
-        - name: JAVA_OPTS
-          value: "-XX:MaxRAMPercentage=50 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
-            -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
-            -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom"
-        - name: JAVA_TOOL_OPTIONS
-          value: $(JAVA_OPTS)
-        - name: HOME
-          value: /home/jboss
+          value: /home/user/.gradle
       volumeMounts:
-        - name: m2
-          path: /home/jboss/.m2
         - name: gradle
           path: /home/jboss/.gradle
       mountSources: true
@@ -39,7 +29,7 @@ components:
     volume:
       size: 1G
 commands:
-  - id: build
+  - id: 1-build
     exec:
       label: "Build"
       component: tools
@@ -47,7 +37,7 @@ commands:
       commandLine: gradle build
       group:
         kind: build
-  - id: run
+  - id: 2-run
     exec:
       label: "Run application"
       component: tools
@@ -55,7 +45,7 @@ commands:
       commandLine: gradle bootRun
       group:
         kind: run
-  - id: test
+  - id: 3-test
     exec:
       label: "Run tests"
       component: tools
@@ -63,7 +53,7 @@ commands:
       commandLine: gradle test
       group:
         kind: run
-  - id: debug
+  - id: 4-debug
     exec:
       label: "Run in debug mode"
       component: tools
