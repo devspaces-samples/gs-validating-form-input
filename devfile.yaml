@@ -20,7 +20,7 @@ components:
           value: /home/user/.gradle
       volumeMounts:
         - name: gradle
-          path: /home/jboss/.gradle
+          path: /home/user/.gradle
       mountSources: true
   - name: m2
     volume:
